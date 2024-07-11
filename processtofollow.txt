@@ -1,0 +1,33 @@
+1. create projectfolder
+2. create a sourcecode folder(backend or app or src) and create virtual env "python -m venv virtualfoldername"
+3. activate venv - "virtualfoldername\Scripts\activate"
+4. go to sourcecode folder 
+5. create file requirements.txt and write all initials requirements, then install those- "pip install -r requirements.txt"
+
+SET UP DATABASE AND CONNECT
+
+library- SQLAlchemy,PyMySQL/psycopg2,python-dotenv
+/sourcecode folder
+6. create a .env and place all db credentials
+7. create a database folder, then config.py, here deifne all db credentials from env and make the db url
+8. create database/session.py, here use the db_url from config and connect the db with project, and also create a session of the db 
+   and make a dependency function for the session
+
+SET UP ALEMBIC FOR MIGRATION AND TABLE CREATION
+
+library- alembic
+/sourcecode folder
+9.  "alembic init alembicfoldername" - This will create a alembicfoldername and alembic.ini
+
+CONNECT ALEMBIC WITH YOUR MODEL
+
+10. create database/models/yourmodel.py
+11. create database/base_class.py - here write the decorotor for models
+12. create database/base.py - here import all models and base_class - This will centralize your model with decorator, 
+    now we ca use this base.py in alembic
+13. go to alembic/env.py and overrite the SQLAlchemy.url from config db_url, and import base.py and update target_metadata
+
+CREATE MIGRATION WITH ALEMBIC
+Now we connect alembic with models, if we create migration it will automatically create the migrations also.
+14. alembic revision --autogenerate -m "create todo table" - This will create and write todo table's migration
+15. Now check the migration and run - "alembic upgrade head" - This will create the table in db
